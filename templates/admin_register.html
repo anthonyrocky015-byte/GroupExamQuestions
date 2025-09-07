@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="mb-5">
+
+    <!-- Add Button -->
+<!--    <div class="card-body">-->
+<!--        <a href="/student_register" class="btn btn-primary text-secondary mr-3">Add Student</a>-->
+<!--    </div>-->
+
+    <div class="table-responsive-sm shadow-soft rounded">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">S/No</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for res in callresults %}
+                <tr>
+                    <td>{{ loop.index }}</td>  {# Auto serial number #}
+                    <td>{{ res['username'] }}</td>
+                    <td>{{ res['name'] }}</td>
+                    <td>{{ res['email'] }}</td>
+                    <td>{{ res['password'] }}</td>
+                    <td>
+                        <!-- Action Dropdown -->
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="actionMenu{{ loop.index }}"
+                                aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown({{ loop.index }})">
+                                ⋮
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="actionMenu{{ loop.index }}" id="dropdownMenu{{ loop.index }}">
+                                  <a href="javascript:void(0);" class="dropdown-item" style="cursor:pointer;" onclick="event.stopPropagation(); confirmEdit({{ res['id'] }})">Edit</a>
+                                <a href="javascript:void(0);" class="dropdown-item text-danger" style="cursor:pointer;" onclick="event.stopPropagation(); confirmDelete({{ res['id'] }})">Delete</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- JavaScript: SweetAlert2 and Actions -->
+<script>
+function confirmDelete(studentId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/delete-student/${studentId}`;
+        }
+    });
+}
+
+function confirmEdit(studentId) {
+    Swal.fire({
+        title: 'Edit Student?',
+        text: "Do you want to edit this student's information?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#aaa',
+        confirmButtonText: 'Yes, edit'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = `/edit-student/${studentId}`;
+        }
+    });
+}
+
+function toggleDropdown(index) {
+    const menu = document.getElementById(`dropdownMenu${index}`);
+    if (!menu) return;
+
+    const isShown = menu.classList.contains('show');
+    // Close any open dropdowns first (optional but recommended)
+    document.querySelectorAll('.dropdown-menu.show').forEach(el => el.classList.remove('show'));
+
+    if (!isShown) {
+        menu.classList.add('show');
+    } else {
+        menu.classList.remove('show');
+    }
+}
+
+document.addEventListener('click', function(event) {
+    // If click is NOT inside any dropdown
+    if (!event.target.closest('.dropdown')) {
+        // Close all open dropdown menus
+        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+            menu.classList.remove('show');
+        });
+    }
+});
+
+
+
+</script>
+{% endblock %}
