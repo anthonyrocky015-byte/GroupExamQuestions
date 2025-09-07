@@ -48,4 +48,3 @@
 ![Screenshot](https://raw.github.com/narender-rk10/python-flask-ca2-quizapp/main/SCREENSHOTS/image20.png)
 ![Screenshot](https://raw.github.com/narender-rk10/python-flask-ca2-quizapp/main/SCREENSHOTS/image21.png)
 ![Screenshot](https://raw.github.com/narender-rk10/python-flask-ca2-quizapp/main/SCREENSHOTS/image22.png)
-![Screenshot](https://raw.github.com/narender-rk10/python-flask-ca2-quizapp/main/SCREENSHOTS/image23.png)
